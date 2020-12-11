@@ -1,3 +1,4 @@
+#Correr la api: uvicorn main:api --reload
 from db.user_db import UserInDB
 from db.user_db import update_user, get_user
 
@@ -13,6 +14,16 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 
 api = FastAPI()
+
+from fastapi.middleware.cors import CORSMiddleware
+origins = [
+    "http://localhost.tiangolo.com", "https://localhost.tiangolo.com",
+    "http://localhost", "http://localhost:8080",
+]
+api.add_middleware(
+    CORSMiddleware, allow_origins=origins,
+    allow_credentials=True, allow_methods=["*"], allow_headers=["*"],
+)
 
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
